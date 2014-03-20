@@ -1,4 +1,3 @@
-
 ##Color and Art Effect in OpenGL Shaders
 By [LittleCheeseCake](http://littlecheesecake.me)
 
@@ -21,7 +20,7 @@ Previously I bind a color gradient map or pattern as a texture to an opengl targ
 
 It is a simple linear equation to represent gradient distributed over positions. The horizontal linear gradient is: 
 
-```
+```c
 vec4 LinearGradientH(vec4 start, vec4 end)
 {
     vec4 color;
@@ -34,7 +33,7 @@ vec4 LinearGradientH(vec4 start, vec4 end)
 
 The radius linear gradient with a specified center point is:
 
-```
+```c
 vec4 RadiusGradient(vec4 center, vec4 corner, vec2 center_point)
 {
     vec4 color;
@@ -51,7 +50,7 @@ vec4 RadiusGradient(vec4 center, vec4 corner, vec2 center_point)
 
 More appealing effect is to randomly generate a warm color gradient map like this:
 
-```
+```c
 vec3 RandomGradientWarm() {
 
     vec3 color;
@@ -72,7 +71,7 @@ vec3 RandomGradientWarm() {
 Or a cool color gradient map like this:
 
 
-```
+```c
 vec3 RandomGradientCool() {
 
     vec3 color;
@@ -102,7 +101,7 @@ $$
 f(a,b)=1-(1-a*\alpha)(1-b)
 $$
 
-```
+```c
 vec3 ScreenBlend(vec3 maskPixelComponent, float alpha, vec3 imagePixelComponent) {
 	return 1.0 - (1.0 - (maskPixelComponent * alpha)) * (1.0 - imagePixelComponent);
 }
@@ -117,7 +116,7 @@ $$
 f(a,b)= a*\alpha b
 $$
 
-```
+```c
 vec3 MultiplyBlend(vec3 overlayComponent, float alpha, vec3 underlayComponent) {
 	return underlayComponent * overlayComponent * alpha;
 }
@@ -135,7 +134,7 @@ f(a,b)=\left\{
   \end{array} \right.
 $$
 
-```
+```c
 vec3 OvelayBlender(vec3 Color, vec3 filter){
 	vec3 filter_result;
 	float luminance = dot(filter, W);
@@ -149,7 +148,7 @@ vec3 OvelayBlender(vec3 Color, vec3 filter){
 }
 ```
 
-![flower](http://media.virbcdn.com/files/54/0ee55f68adc65c74-flower_2_s.png "flower") ![warm](http://media.virbcdn.com/files/71/0da0456ad14d3a5d-flower_w_s.png "warm")
+![flower](http://media.virbcdn.com/files/54/0ee55f68adc65c74-flower_2_s.png "flower")  ![warm](http://media.virbcdn.com/files/71/0da0456ad14d3a5d-flower_w_s.png "warm")
 
 ###**2. Being an Artist**
 
@@ -163,7 +162,7 @@ How about asking the computer to draw for us like this? Emm, how to sketch a out
 
 How to blend the colors? We can pick up color from the real photo for each texel, but it seems look so real because too much fine details are included. We would like to make it less accurate. To do so by grouping the similar colors and giving them an average. In shader, to categorize each color channel into 10 groups can simply write like this by knowing that each channel in **vec4 color** ranges from 0 to 1:
 
-```
+```c
     color = floor(color * 10.0) * 0.1;
 
 ```
@@ -172,7 +171,7 @@ Now, we can sketch and blend like this:
 
 ![image](http://media.virbcdn.com/files/4b/41e70602ec042c27-2.jpg)
 
-![image_sketch](http://media.virbcdn.com/files/59/2fbcd39d86b7f344-1.jpg) ![image_blend](http://media.virbcdn.com/files/f0/cf8a2782c5e83aa6-3.jpg)
+![image_sketch](http://media.virbcdn.com/files/59/2fbcd39d86b7f344-1.jpg)  ![image_blend](http://media.virbcdn.com/files/f0/cf8a2782c5e83aa6-3.jpg)
 
 
 ####**2.2 Masters' Styles: Just for Fun**
@@ -182,11 +181,11 @@ Now, we can sketch and blend like this:
 
 __Waterlilies__ by _Monet_ and __Starry Night__ by _Van Gogh_ are some famous masterpieces we all are familiar with. We can easily recognize the unique ways they blend colors. Monet,the Impressionist, in his work eliminated the edges and randomized the brush touches. To mimic an effect like this, I tried to combine the artistic effect without edge detection with the method[4] I discussed previously - scanning the random selected pixels around the center one, and take either the brightest or darkest to replace the center. This gives a quite nice view I feel, if not alike.
 
-![flower](http://media.virbcdn.com/files/da/943cacb3bad52837-flower_1_s.png "flower") ![monet](http://media.virbcdn.com/files/a5/142d959760b2549b-flower_m_s.png "monet")
+![flower](http://media.virbcdn.com/files/da/943cacb3bad52837-flower_1_s.png "flower")  ![monet](http://media.virbcdn.com/files/a5/142d959760b2549b-flower_m_s.png "monet")
 
 Curved lines and circular brush touches are the identities of Vincent Van Gogh. To mimic the kind of circular motion feel, I give wave-patterned displacements to texels by using a sine function:
 
-```
+```c
 vec2 circular(vec2 position){
 	vec2 p = position;
 	p.x = p.x + sin(p.y*80.)*0.003;
@@ -196,7 +195,7 @@ vec2 circular(vec2 position){
 }
 ```
 
-![lili](http://media.virbcdn.com/files/99/3fe6eb3659136fc5-lili_s.png "lily") ![van](http://media.virbcdn.com/files/d2/90868f86169649eb-lili_v_s.png "van")
+![lili](http://media.virbcdn.com/files/99/3fe6eb3659136fc5-lili_s.png "lily")  ![van](http://media.virbcdn.com/files/d2/90868f86169649eb-lili_v_s.png "van")
 
 Just a trial, hope this is not taken as making fun of the great artists. I like painting, with pencils and brushes, or digitally[6], so I actually encourage us to draw with our hands, not a camera. But I also hope this artistic view can give us a new perspective of the real world, to appreciate the beauty hiding behind it. 
 
@@ -207,7 +206,7 @@ We often see dots in American comics. Ben-Day[7] dots was invented dating back t
 
 To generate a strips pattern:
 
-```
+```c
 vec3 StripsPattern(vec2 position)
 {
 	vec2 p = (position - 0.5) * 500.;
@@ -227,7 +226,7 @@ vec3 StripsPattern(vec2 position)
 
 To generate a dots pattern 
 
-```
+```c
 float divation(float a, float b){
 	float f = floor(a/b);
 	float c = ceil(a/b);
@@ -249,7 +248,7 @@ vec3 DotsPattern(vec2 position, vec2 uPixelSize, float radius, float interval){
 }
 ```
 
-![image](http://media.virbcdn.com/files/ee/69476dc5505702e6-5.jpg) ![mango](http://media.virbcdn.com/files/97/1fca6b08702ed223-4.jpg)
+![image](http://media.virbcdn.com/files/ee/69476dc5505702e6-5.jpg)  ![mango](http://media.virbcdn.com/files/97/1fca6b08702ed223-4.jpg)
 
 
 
@@ -283,7 +282,7 @@ vec3 main()
 }
 ```
 
-![green](http://media.virbcdn.com/files/41/c50af659badc9ed4-green_s.png "green") ![blur](http://media.virbcdn.com/files/8e/2ce2e352cfb2ab95-green_b_s.png "blur")
+![green](http://media.virbcdn.com/files/41/c50af659badc9ed4-green_s.png "green")  ![blur](http://media.virbcdn.com/files/8e/2ce2e352cfb2ab95-green_b_s.png "blur")
 
 ###Closure
 
@@ -291,7 +290,8 @@ It is wonderful to combine the two things I like most - coding and painting toge
 
 
 > A Camera App on [Google Play]()
-Credit of nice photos goes to my adventurous nerd, [Flickr](http://www.flickr.com/photos/fenixzhang/).
+
+> Credit of nice photos goes to my adventurous nerd, [Flickr](http://www.flickr.com/photos/fenixzhang/).
 
 [1]:http://littlecheesecake.me/blog/13804700/opengles-shader
 [2]:http://pixelshaders.com/sample/
