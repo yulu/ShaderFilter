@@ -169,7 +169,7 @@ How to blend the colors? We can pick up color from the real photo for each texel
 
 Now, we can sketch and blend like this:
 
-![image_sketch](http://media.virbcdn.com/files/59/2fbcd39d86b7f344-1.jpg)  ![image_blend](http://media.virbcdn.com/files/f0/cf8a2782c5e83aa6-3.jpg)
+![image_sketch](http://media.virbcdn.com/files/52/456e0a0a2378f1c3-1_crop.jpg)  ![image_blend](http://media.virbcdn.com/files/5a/0e91a1fd3e397f71-2_crop.jpg)
 
 
 ####**2.2 Masters' Styles: Just for Fun**
